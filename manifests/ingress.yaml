@@ -9,10 +9,17 @@ spec:
     - host: api.k8s.test
       http:
         paths:
-          - path: /
+          - path: /users
             pathType: Prefix
             backend:
               service:
-                name: backend-service
+                name: user-service
                 port:
-                  number: 80
+                  number: 8080
+          - path: /orders
+            pathType: Prefix
+            backend:
+              service:
+                name: order-service
+                port:
+                  number: 8080

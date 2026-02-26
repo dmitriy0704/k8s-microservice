@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-service
+      pod: order-service-pod
+  template:
+    metadata:
+      labels:
+        app: order-service
+        pod: order-service-pod
+    spec:
+      containers:
+        - name: order-service
+          image: dmitriyf7498/k8s-microservice-order-service:1.0.0
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://order-service-postgres-svc:5432/mydb
+            - name: SPRING_DATASOURCE_USERNAME
+              value: myuser
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: orders-secret
+                  key: POSTGRES_PASSWORD

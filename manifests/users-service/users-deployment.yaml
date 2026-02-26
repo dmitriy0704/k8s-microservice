@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-service
+      pod: user-service-pod
+  template:
+    metadata:
+      labels:
+        app: user-service
+        pod: user-service-pod
+    spec:
+      containers:
+        - name: user-service
+          image: dmitriyf7498/k8s-microservice-user-service:1.0.0
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://user-service-postgres-svc:5432/mydb
+            - name: SPRING_DATASOURCE_USERNAME
+              value: myuser
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: user-service-postgres-secret
+                  key: POSTGRES_PASSWORD
