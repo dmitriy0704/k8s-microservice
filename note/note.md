@@ -3,10 +3,11 @@
 ## Порядок запуска
 
 1. Запустить PostgreSQL:
-   ```bash
-   kubectl apply -f database-headless-service.yaml
-   kubectl apply -f database-statefulset.yaml
-   ```
+    ```bash
+    kubectl apply -f database-secret.yaml
+    kubectl apply -f database-headless-service.yaml
+    kubectl apply -f database-statefulset.yaml
+    ```
 
 2. Запустить backend:
    ```bash
